@@ -1,0 +1,11 @@
+[package]
+name = "k8s-walker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.66"
+clap = "4.0.22"
+k8s-openapi = { version = "0.16.0", features = ["v1_25"] }
+kube = { version = "0.76.0", features = ["derive", "runtime"] }
+tokio = { version = "1.21.2", features = ["rt-multi-thread", "macros"] }

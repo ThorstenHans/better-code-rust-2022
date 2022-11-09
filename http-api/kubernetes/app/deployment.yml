@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-api
+  namespace: http-api
+spec:
+  selector:
+    matchLabels:
+      app: http-api
+  template:
+    metadata:
+      labels:
+        app: http-api
+    spec:
+      containers:
+      - name: main
+        image: thans.azurecr.io/http-api:latest
+        imagePullPolicy: Always
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                key: connectionString
+                name: azure-postgresql
+                optional: false
+        
+        livenessProbe:
+          httpGet:
+            path: /healthz/liveness
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /healthz/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 3
+        resources:
+          limits:
+            memory: "32Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: price-reducer
+  namespace: reduce-price
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reduce-price
+  template:
+    metadata:
+      labels:
+        app: reduce-price
+    spec:
+      runtimeClassName: wasmtime-spin-v1
+      containers:
+        - name: main
+          image: thans.azurecr.io/reduce-product-price:0.0.6
+          command: ["/"]

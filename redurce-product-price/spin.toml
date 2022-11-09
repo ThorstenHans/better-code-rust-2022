@@ -1,0 +1,14 @@
+spin_version = "1"
+authors = ["Thorsten Hans <thorsten.hans@gmail.com>"]
+description = "Simple HTTP Endpoint to trigger price reduction"
+name = "redurce-product-price"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[[component]]
+id = "redurce-product-price"
+source = "target/wasm32-wasi/release/redurce_product_price.wasm"
+[component.trigger]
+route = "/reduce"
+[component.build]
+command = "cargo build --target wasm32-wasi --release"
